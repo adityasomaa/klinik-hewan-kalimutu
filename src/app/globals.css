@@ -1,0 +1,487 @@
+@import "tailwindcss";
+
+/* =============================================================================
+ * FONT — self-host, tidak ada CDN pihak ketiga.
+ * Keduanya SIL Open Font License 1.1 (boleh dipakai di web).
+ *   Archivo (Omnibus-Type)        : heading. Sumbu wdth dipakai supaya heading
+ *                                   menyempit alih-alih pecah baris di layar kecil.
+ *   Plus Jakarta Sans (Tokotype)  : body dan UI.
+ * ========================================================================== */
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/plus-jakarta-sans-variable.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =============================================================================
+ * TOKEN
+ * Semua nilai kontras sudah diuji di scripts/check-contrast.mjs.
+ * Kalau warna aksen diubah, JALANKAN ULANG script itu sebelum ship.
+ * ========================================================================== */
+@theme {
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #f6f4ef;
+  --color-surface: #ffffff;
+  --color-sunken: #efebe3;
+  --color-ink: #111e1a;
+  --color-ink-muted: #4c5a54;
+  --color-ink-subtle: #5c6a63;
+  --color-accent: #0e5c46;
+  --color-accent-hover: #0a4634;
+  --color-accent-soft: #dfede7;
+  --color-accent-ink: #0b4735;
+  --color-urgent: #983521;
+  --color-urgent-soft: #faebe6;
+  --color-line: #dcd6cb;
+  --color-line-strong: #8a8275;
+
+  --radius-card: 1.125rem;
+  --radius-pill: 999px;
+
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* =============================================================================
+ * SKALA Z-INDEX — SATU-SATUNYA SUMBER KEBENARAN.
+ * Tidak ada angka z-index mentah di mana pun di codebase.
+ * Urutan dari bawah ke atas persis seperti di bawah ini.
+ * ========================================================================== */
+@layer base {
+  :root {
+    --z-content: 1;
+    --z-raised: 10;
+    --z-header: 100;
+    --z-fab: 200;
+    --z-menu: 300;
+    --z-overlay: 400; /* kalender + modal */
+    --z-cookie: 500;
+    --z-skip: 600;
+
+    --header-h: 4rem;
+    /* Ruang aman di bawah konten supaya tombol melayang tidak menutupi
+       elemen terakhir halaman di layar kecil. */
+    --fab-safe: 6.5rem;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-h: 4.5rem;
+      --fab-safe: 2rem;
+    }
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Cegah scroll horizontal di mana pun. */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Fokus terlihat jelas di semua kontrol interaktif. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-ink);
+  }
+}
+
+/* =============================================================================
+ * KOMPONEN — semua di dalam @layer supaya tidak pernah menimpa utility Tailwind.
+ * ========================================================================== */
+@layer components {
+  .u-container {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .u-container {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* --- Heading: batas baris diatur PER VIEWPORT, bukan disamaratakan. -------
+     Mobile boleh 3 baris, tablet 2, desktop 1. Dicapai lewat ukuran font,
+     max-width, dan sumbu lebar Archivo — bukan lewat <br> manual. */
+  .u-h1 {
+    font-size: clamp(2rem, 8.5vw, 2.75rem);
+    line-height: 1.06;
+    max-width: 15ch;
+    font-stretch: 92%;
+  }
+
+  .u-h2 {
+    font-size: clamp(1.625rem, 6vw, 2.125rem);
+    line-height: 1.1;
+    max-width: 18ch;
+    font-stretch: 95%;
+  }
+
+  .u-h3 {
+    font-size: clamp(1.125rem, 3.6vw, 1.3125rem);
+    line-height: 1.2;
+    max-width: 24ch;
+  }
+
+  @media (min-width: 768px) {
+    .u-h1 {
+      font-size: clamp(2.75rem, 5.2vw, 3.5rem);
+      max-width: 20ch;
+      font-stretch: 100%;
+    }
+    .u-h2 {
+      font-size: clamp(2.125rem, 3.8vw, 2.5rem);
+      max-width: 24ch;
+      font-stretch: 100%;
+    }
+    .u-h3 {
+      max-width: 30ch;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    /* Di desktop heading idealnya satu baris: lebar dilonggarkan dan huruf
+       sedikit dilebarkan supaya tidak ada yang terpaksa pecah. */
+    .u-h1 {
+      font-size: 3.5rem;
+      max-width: 42ch;
+      font-stretch: 103%;
+    }
+    .u-h2 {
+      font-size: 2.5rem;
+      max-width: 40ch;
+      font-stretch: 102%;
+    }
+  }
+
+  /* --- Tombol ------------------------------------------------------------ */
+  .u-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding-inline: 1.25rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1;
+    text-align: center;
+    transition:
+      background-color 0.18s var(--ease-out-soft),
+      color 0.18s var(--ease-out-soft),
+      border-color 0.18s var(--ease-out-soft),
+      transform 0.18s var(--ease-out-soft);
+  }
+
+  .u-btn:active {
+    transform: translateY(1px);
+  }
+
+  .u-btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .u-btn--primary:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .u-btn--outline {
+    background: transparent;
+    color: var(--color-accent-ink);
+    border: 1px solid var(--color-line-strong);
+  }
+  .u-btn--outline:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  .u-btn--urgent {
+    background: var(--color-urgent);
+    color: #fff;
+  }
+  .u-btn--urgent:hover {
+    filter: brightness(0.92);
+  }
+
+  .u-btn--ghost {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .u-btn--ghost:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  /* --- Kartu ------------------------------------------------------------- */
+  .u-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  /* --- Rasio gambar: HANYA dua orientasi yang diizinkan. ------------------
+     Pembungkus menahan ruang sebelum gambar termuat supaya layout tidak
+     melompat. Jangan menambah rasio ketiga di sini. */
+  .u-media-16x9 {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-sunken);
+  }
+
+  .u-media-1x1 {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--color-sunken);
+  }
+
+  .u-media-16x9 > img,
+  .u-media-1x1 > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* --- Honeypot: pakai clip, BUKAN absolute left:-9999px (yang butuh
+         positioned ancestor dan sering bikin overflow horizontal). --------- */
+  .u-honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* --- Hanya untuk pembaca layar ----------------------------------------- */
+  .u-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* =============================================================================
+ * MOTION
+ * MOTION_INTENSITY = 2 dari 5. Gerak hanya dipakai untuk menjelaskan perubahan
+ * keadaan, tidak pernah untuk dekorasi. Tidak ada grain, noise, atau tekstur
+ * bintik di mana pun.
+ * ========================================================================== */
+@layer utilities {
+  .u-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.55s var(--ease-out-soft),
+      transform 0.55s var(--ease-out-soft);
+  }
+
+  .u-reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Ruang aman supaya tombol melayang tidak menutupi konten terakhir. */
+  .u-fab-safe {
+    padding-bottom: var(--fab-safe);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .u-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =============================================================================
+ * TIRAI LOADER DAN TRANSISI HALAMAN
+ * Semua di dalam @layer components supaya tidak menimpa utility Tailwind.
+ * ========================================================================== */
+@layer components {
+  .kal-curtain {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(101%);
+  }
+
+  /* Menutup penuh, tanpa gerak. */
+  .kal-curtain[data-phase="intro"] {
+    transform: none;
+    transition: none;
+  }
+
+  /* Naik dari bawah menutupi halaman. */
+  .kal-curtain[data-phase="closing"] {
+    transform: none;
+    transition: transform 320ms var(--ease-out-soft);
+  }
+
+  /* Lanjut naik keluar layar; konten sudah berganti di baliknya. */
+  .kal-curtain[data-phase="opening"],
+  .kal-curtain[data-phase="intro-out"] {
+    transform: translateY(-101%);
+    transition: transform 420ms var(--ease-in-out-soft);
+  }
+
+  /* Parkir di bawah layar. Tanpa transisi supaya tidak terlihat turun. */
+  .kal-curtain[data-phase="idle"] {
+    transform: translateY(101%);
+    transition: none;
+  }
+
+  .kal-curtain__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .kal-curtain__mark {
+    width: 4.5rem;
+    height: 4.5rem;
+    color: var(--color-bg);
+    animation: kal-mark 620ms var(--ease-out-soft) both;
+  }
+
+  .kal-curtain__word {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    animation: kal-word 620ms var(--ease-out-soft) 90ms both;
+  }
+
+  @keyframes kal-mark {
+    from {
+      opacity: 0;
+      transform: scale(0.82);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes kal-word {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kal-curtain,
+  .kal-curtain[data-phase="closing"],
+  .kal-curtain[data-phase="opening"],
+  .kal-curtain[data-phase="intro-out"] {
+    transition-duration: 1ms !important;
+  }
+  .kal-curtain__mark,
+  .kal-curtain__word {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
+/* =============================================================================
+ * Tombol melayang vs banner cookie.
+ * Selama banner cookie tampil, tombol melayang dinaikkan supaya tidak tertutup
+ * dan tidak ada klik yang tertelan di layar kecil.
+ * ========================================================================== */
+@layer components {
+  html[data-cookie-open] .kal-fab {
+    transform: translateY(-13rem);
+  }
+
+  @media (min-width: 1024px) {
+    html[data-cookie-open] .kal-fab {
+      transform: translateY(-7.5rem);
+    }
+  }
+
+  .kal-fab {
+    transition: transform 0.24s var(--ease-out-soft);
+  }
+}

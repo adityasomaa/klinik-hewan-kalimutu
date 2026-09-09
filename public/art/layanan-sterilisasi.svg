@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640" role="img" aria-hidden="true">
+<defs>
+    <linearGradient id="g-sterilisasi" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DFEDE7"/>
+      <stop offset="1" stop-color="#EFEBE3"/>
+    </linearGradient>
+    <linearGradient id="a-sterilisasi" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#0E5C46"/>
+      <stop offset="1" stop-color="#7FAE9C"/>
+    </linearGradient>
+    <clipPath id="c-sterilisasi"><rect width="100%" height="100%" rx="0"/></clipPath>
+  </defs>
+<rect width="640" height="640" fill="#F6F4EF"/>
+<g clip-path="url(#c-sterilisasi)">
+
+    <rect width="640" height="640" fill="url(#g-sterilisasi)"/>
+    <circle cx="249.60000000000002" cy="320" r="126" fill="none" stroke="#0E5C46" stroke-width="20"/>
+    <circle cx="390.4" cy="320" r="126" fill="none" stroke="#7FAE9C" stroke-width="20"/>
+    <circle cx="249.60000000000002" cy="320" r="126" fill="none" stroke="#0E5C46" stroke-width="20"
+      stroke-dasharray="120 700" stroke-dashoffset="-58"/>
+    <circle cx="320" cy="320" r="26" fill="#FFFFFF"/>
+</g>
+</svg>

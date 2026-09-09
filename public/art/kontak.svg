@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-hidden="true">
+<defs>
+    <linearGradient id="g-kontak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DFEDE7"/>
+      <stop offset="1" stop-color="#EFEBE3"/>
+    </linearGradient>
+    <linearGradient id="a-kontak" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#0E5C46"/>
+      <stop offset="1" stop-color="#7FAE9C"/>
+    </linearGradient>
+    <clipPath id="c-kontak"><rect width="100%" height="100%" rx="0"/></clipPath>
+  </defs>
+<rect width="1600" height="900" fill="#F6F4EF"/>
+<g clip-path="url(#c-kontak)">
+
+    <rect width="1600" height="900" fill="#F6F4EF"/>
+    <path d="M -40 126 Q 400 54 800 126 T 1640 126"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.32" stroke-linecap="round"/><path d="M -40 234 Q 400 128.06 800 234 T 1640 234"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.48" stroke-linecap="round"/><path d="M -40 342 Q 400 239.11 800 342 T 1640 342"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.64" stroke-linecap="round"/><path d="M -40 450 Q 400 324.12 800 450 T 1640 450"
+        fill="none" stroke="#0E5C46" stroke-width="9"
+        opacity="1" stroke-linecap="round"/><path d="M -40 558 Q 400 464.03 800 558 T 1640 558"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.64" stroke-linecap="round"/><path d="M -40 666 Q 400 588.25 800 666 T 1640 666"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.48" stroke-linecap="round"/><path d="M -40 774 Q 400 656.34 800 774 T 1640 774"
+        fill="none" stroke="#7FAE9C" stroke-width="4"
+        opacity="0.32" stroke-linecap="round"/>
+    <circle cx="800" cy="450" r="112" fill="#F6F4EF"/>
+    <circle cx="800" cy="450" r="90" fill="url(#a-kontak)"/>
+    <g opacity="1"><ellipse cx="765.87" cy="433.94" rx="10.81" ry="13.8" fill="#DFEDE7" transform="rotate(-64.8 765.87 433.94)"/><ellipse cx="786.11" cy="414.93" rx="10.81" ry="13.8" fill="#DFEDE7" transform="rotate(-21.6 786.11 414.93)"/><ellipse cx="813.89" cy="414.93" rx="10.81" ry="13.8" fill="#DFEDE7" transform="rotate(21.6 813.89 414.93)"/><ellipse cx="834.13" cy="433.94" rx="10.81" ry="13.8" fill="#DFEDE7" transform="rotate(64.8 834.13 433.94)"/>
+    <path d="M 800 491.4
+             q -33.12 0 -33.12 -19.32
+             q 0 -19.32 33.12 -19.32
+             q 33.12 0 33.12 19.32
+             q 0 19.32 -33.12 19.32 Z" fill="#DFEDE7"/>
+  </g>
+</g>
+</svg>
