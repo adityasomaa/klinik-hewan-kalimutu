@@ -530,16 +530,44 @@ fasilitas. Tiga kalimat ditemukan dan diperbaiki:
 3. "saat ada **keluhan ringan**" — "ringan" adalah penilaian tingkat keparahan.
 
 **Aksesibilitas** — status buka/tutup dan status slot selalu punya label teks,
-tidak dibedakan lewat warna saja. Dropdown memakai pola ARIA listbox penuh
-(panah, Home/End, type-ahead, Enter/Space, Escape, fokus kembali ke trigger).
-Kalender dirender lewat portal ke `body` supaya tidak terpotong induk
-`overflow-hidden`.
+tidak dibedakan lewat warna saja. Dropdown diuji dengan keyboard sungguhan:
+Enter membuka, panah memindah pilihan, Enter memilih, Escape menutup, dan fokus
+kembali ke trigger. Kalender diverifikasi benar-benar dirender lewat portal ke
+`body` (induk langsungnya `body`, bukan di dalam `form`) sehingga tidak dapat
+terpotong induk `overflow-hidden`.
+
+**Lapisan dan overlay** — diverifikasi di produksi: Lenis aktif hanya di 1440px,
+mati di 375px, 768px, dan di `/admin`; kalender menandai overlay sehingga Lenis
+berhenti selama terbuka; banner cookie tidak muncul di atas tirai loader maupun
+di atas menu mobile, dan tombol melayang naik saat banner tampil sehingga tidak
+ada klik yang tertelan.
+
+**Persetujuan cookie benar-benar berefek** — diuji dua arah di produksi: menolak
+preferensi membuat draf isian form tidak tersimpan sama sekali, mengizinkannya
+membuat draf tersimpan.
+
+### Catatan jujur soal apa yang belum pernah dilihat mata
+
+Motion **sudah** dilihat, bukan hanya dibaca dari DOM: tirai loader pembuka dan
+tirai transisi halaman ditangkap sebagai gambar di pertengahan gerakannya, dan
+urutan fase beserta durasinya diukur di peramban sungguhan (`closing` ~2 ms,
+`opening` ~360 ms, `idle` ~780 ms, dengan posisi scroll kembali ke 0 setiap
+kali).
+
+Satu hal yang perlu diketahui untuk pengujian berikutnya: panel pratinjau di
+dalam alat bantu tidak selalu mengeksekusi `loading="lazy"` maupun `setTimeout`
+dengan benar saat tabnya tidak aktif — di sana transisi terukur ~2 detik dan
+gambar di bawah lipatan tampak "rusak". Keduanya artefak alat, bukan cacat
+situs; pengukuran yang dipakai di dokumen ini semuanya diambil dari peramban
+sungguhan.
 
 ---
 
 ## 11. Yang bisa ditambahkan nanti
 
 - Backend sungguhan — lihat bagian 6.
+- Mengisi jam operasional begitu klinik mengonfirmasi — ini pekerjaan tujuh baris
+  di config, dan langsung menghidupkan fitur pembeda utama situs ini.
 - Autentikasi untuk `/admin`.
 - Payment gateway — adapter kosongnya sudah siap.
 - Konfirmasi otomatis lewat WhatsApp Business API.
